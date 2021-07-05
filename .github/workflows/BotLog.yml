@@ -1,0 +1,53 @@
+name: Bot Log
+on:
+  schedule:
+    - cron: '0 20 * * *'
+  push:
+  workflow_dispatch:
+jobs:
+  log:
+    runs-on: Ubuntu-latest
+    env:
+      TZ: Asia/Shanghai
+    steps:
+    - name: Setup Deploy Private Key
+      env:
+        BOT_DEPLOY_KEY: ${{ secrets.BOT_DEPLOY_KEY }}
+        BOT_NAME: ${{ secrets.BOT_NAME }}
+        BOT_EMAIL: ${{ secrets.BOT_EMAIL }}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$BOT_DEPLOY_KEY" > ~/.ssh/id_rsa 
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        git config --global user.email "$BOT_EMAIL"
+        git config --global user.name "$BOT_NAME"
+    - name: Setup Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+        architecture: 'x64'
+    - name: Clone
+      run: |
+        git clone --recursive git@github.com:MHG-LAB/Workflow-Keep-Alive
+    - name: Build
+      env:
+        BOT_GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+      run: |
+        cd Workflow-Keep-Alive
+        sed -i "s/BOT_GITHUB_TOKEN/$BOT_GITHUB_TOKEN/g" ./main.py
+        python main.py
+    - name: Bot Log
+      run: |
+        mkdir botlog
+        cd botlog
+        Date=`date -d '+0 hours' +'%Y-%m-%d %H:%M:%S'`
+        echo "[$Date] Successful" >> readme.md
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.BOT_DEPLOY_KEY }}
+        user_name: ${{ secrets.BOT_NAME }}
+        user_email: ${{ secrets.BOT_EMAIL }}
+        publish_dir: ./botlog
+        publish_branch: botlog

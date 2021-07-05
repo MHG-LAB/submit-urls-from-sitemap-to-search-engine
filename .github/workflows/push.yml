@@ -1,0 +1,47 @@
+name: push
+
+on:
+  push:
+  schedule:
+    - cron: '0 21 * * *'
+  watch:
+    types: [started]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Set up python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Setup Node.js 10.x
+      uses: actions/setup-node@master
+      with:
+        node-version: "10.x"
+    - name: Npm install
+      run: npm install
+    - name: Install requests
+      run: pip install requests
+    - name: generate
+      run: python generate.py
+
+    - name: Push to BaiDu
+      env:
+        BAIDU_TOKEN: ${{ secrets.BAIDUTOKEN }}
+        SITE: ${{ secrets.SITE }}
+      run: curl -H 'Content-Type:text/plain' --data-binary @urls.txt "http://data.zz.baidu.com/urls?site=${SITE}&token=${BAIDU_TOKEN}"
+
+    - name: Push to Bing
+      env:
+        BING_TOKEN: ${{ secrets.BINGTOKEN }}
+      run: curl -H "Content-Type:application/json" --data-binary @bing.json "https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=${BING_TOKEN}"
+
+    - name: Push to Google
+      env:
+        GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+      run: |
+        echo "$GOOGLE_SERVICE_ACCOUNT" > ./service_account.json
+        node index
