@@ -33,7 +33,7 @@ sitemaps = ['/sitemap1.xml','/sitemap2.xml']
 
 #### 配额
 
-每天前 10 个 URL
+每天前 5 个 URL + 随机 5 个 URL
 
 ### 谷歌
 
@@ -70,7 +70,7 @@ https://developers.google.com/search/apis/indexing-api/v3/prereqs
 
 #### 配额
 
-每天前 100 个 URL
+每天前 50 个 URL + 随机 50 个 URL
 
 ---
 
