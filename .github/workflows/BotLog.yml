@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 jobs:
   log:
+    if: github.repository == 'MHG-LAB/submit-urls-from-sitemap-to-search-engine'
     runs-on: Ubuntu-latest
     env:
       TZ: Asia/Shanghai
