@@ -6,7 +6,7 @@
 
 ## 它要怎么用
 
-请不要 fork 此仓库！！ 使用模板导入 [Use this template](https://github.com/MHG-LAB/submit-urls-from-sitemap-to-search-engine/generate)
+请不要 fork 此仓库！！ 使用模板导入 [Use this template](https://github.com/MHG-LAB/submit-urls-from-sitemap-to-search-engine/generate) !! 瞎点fork按钮发送垃圾 PR 将直接提交到 GitHub 黑名单中）
 
 修改 [Actions](https://github.com/MHG-LAB/submit-urls-from-sitemap-to-search-engine/blob/main/.github/workflows/push.yml#L12)
 
