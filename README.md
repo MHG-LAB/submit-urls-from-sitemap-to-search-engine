@@ -6,6 +6,10 @@
 
 ## 它要怎么用
 
+请不要 fork 此仓库！！ 使用模板导入 [Use this template](https://github.com/MHG-LAB/submit-urls-from-sitemap-to-search-engine/generate)
+
+修改 [Actions](https://github.com/MHG-LAB/submit-urls-from-sitemap-to-search-engine/blob/main/.github/workflows/push.yml#L12)
+
 将 `generate.py` 文件中 `site` 的值修改为你的博客地址， `sitemaps` 变量的值修改为你的 sitemap.xml 地址，请确保你的 sitemap 为正常格式。
 
 ```py
@@ -23,7 +27,7 @@ sitemaps = ['/sitemap1.xml','/sitemap2.xml']
 
 #### 配额
 
-每天前 100 个 URL
+每天前 50 个 URL + 随机 50 个 URL
 
 ### 必应
 
