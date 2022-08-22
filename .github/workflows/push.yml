@@ -3,7 +3,7 @@ name: push
 on:
   push:
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '0 7 * * *'
   watch:
     types: [started]
   workflow_dispatch:
@@ -29,12 +29,6 @@ jobs:
     - name: generate
       run: python generate.py
 
-    - name: Push to BaiDu
-      env:
-        BAIDU_TOKEN: ${{ secrets.BAIDUTOKEN }}
-        SITE: ${{ secrets.SITE }}
-      run: curl -H 'Content-Type:text/plain' --data-binary @urls.txt "http://data.zz.baidu.com/urls?site=${SITE}&token=${BAIDU_TOKEN}"
-
     - name: Push to Bing
       env:
         BING_TOKEN: ${{ secrets.BINGTOKEN }}
@@ -46,3 +40,9 @@ jobs:
       run: |
         echo "$GOOGLE_SERVICE_ACCOUNT" > ./service_account.json
         node index
+
+    - name: Push to BaiDu
+      env:
+        BAIDU_TOKEN: ${{ secrets.BAIDUTOKEN }}
+        SITE: ${{ secrets.SITE }}
+      run: curl -H 'Content-Type:text/plain' --data-binary @urls.txt "http://data.zz.baidu.com/urls?site=${SITE}&token=${BAIDU_TOKEN}"
