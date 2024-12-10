@@ -23,10 +23,10 @@ jobs:
         ssh-keyscan github.com >> ~/.ssh/known_hosts
         git config --global user.email "$BOT_EMAIL"
         git config --global user.name "$BOT_NAME"
-    - name: Setup Python 3.7
-      uses: actions/setup-python@v2
+    - name: Setup Python 3
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.7'
+        python-version: '3.10'
         architecture: 'x64'
     - name: Clone
       run: |
